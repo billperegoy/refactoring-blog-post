@@ -44,6 +44,12 @@ type Msg
     | SetRequired FieldName Bool
 
 
+transformOneField : (FieldName -> Bool -> Field -> Field) -> FieldName -> Bool -> List Field -> List Field
+transformOneField updateFunction fieldName updateValue fields =
+    fields
+        |> List.map (\field -> updateFunction fieldName updateValue field)
+
+
 updateFieldRequirement : FieldName -> Bool -> Field -> Field
 updateFieldRequirement fieldName selectStatus field =
     if field.fieldName == fieldName then
@@ -70,17 +76,15 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectField fieldName selectStatus ->
-            let
-                contactFields =
-                    model.contactFields
-                        |> List.map (\field -> updateSelectStatus fieldName selectStatus field)
-            in
-                { model | contactFields = contactFields } ! []
+            { model
+                | contactFields =
+                    transformOneField updateSelectStatus fieldName selectStatus model.contactFields
+            }
+                ! []
 
         SetRequired fieldName requiredValue ->
-            let
-                contactFields =
-                    model.contactFields
-                        |> List.map (\field -> updateFieldRequirement fieldName requiredValue field)
-            in
-                { model | contactFields = contactFields } ! []
+            { model
+                | contactFields =
+                    transformOneField updateFieldRequirement fieldName requiredValue model.contactFields
+            }
+                ! []
