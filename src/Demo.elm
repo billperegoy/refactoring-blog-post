@@ -40,7 +40,7 @@ type alias Model =
 
 
 type Msg
-    = SelectField FieldName Bool
+    = SetSelected FieldName Bool
     | SetRequired FieldName Bool
 
 
@@ -69,16 +69,16 @@ setSelectionStatus fieldName selectStatus trueValue falseValue field =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SelectField fieldName selectStatus ->
+        SetSelected fieldName value ->
             { model
                 | contactFields =
-                    transformOneField fieldName selectStatus (Selected Optional) Unselected model.contactFields
+                    transformOneField fieldName value (Selected Optional) Unselected model.contactFields
             }
                 ! []
 
-        SetRequired fieldName requiredValue ->
+        SetRequired fieldName value ->
             { model
                 | contactFields =
-                    transformOneField fieldName requiredValue (Selected Required) (Selected Optional) model.contactFields
+                    transformOneField fieldName value (Selected Required) (Selected Optional) model.contactFields
             }
                 ! []

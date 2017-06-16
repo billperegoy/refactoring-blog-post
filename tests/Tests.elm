@@ -15,7 +15,7 @@ all =
                     { contactFields = [ Field Email Unselected ] }
 
                 updatedModel =
-                    update (SelectField Email True) model
+                    update (SetSelected Email True) model
 
                 expectedResult =
                     { contactFields = [ Field Email (Selected Optional) ] } ! []
@@ -33,7 +33,7 @@ all =
                     }
 
                 updatedModel =
-                    update (SelectField FirstName True) model
+                    update (SetSelected FirstName True) model
 
                 expectedResult =
                     { contactFields =
@@ -57,7 +57,7 @@ all =
                     }
 
                 updatedModel =
-                    update (SelectField FirstName False) model
+                    update (SetSelected FirstName False) model
 
                 expectedResult =
                     { contactFields =
@@ -81,7 +81,7 @@ all =
                     }
 
                 updatedModel =
-                    update (SelectField FirstName False) model
+                    update (SetSelected FirstName False) model
 
                 expectedResult =
                     { contactFields =
@@ -105,7 +105,7 @@ all =
                     }
 
                 updatedModel =
-                    update (SelectField FirstName True) model
+                    update (SetSelected FirstName True) model
 
                 expectedResult =
                     { contactFields =
